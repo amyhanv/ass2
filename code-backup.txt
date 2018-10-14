@@ -1,0 +1,58 @@
+w = np.ones((1,X.shape[1]))
+
+#TODO
+def error(x,y,w):
+    mat_mul = np.matmul(x.astype(float),(np.transpose(w)).astype(float))
+    r = np.log(1+(np.exp((-1*y)*mat_mul)))
+    return r
+
+
+#TODO
+def error_mean(X,y,w):
+    n = X.shape[0]
+    for i in np.nditer(X):
+        r = error(X,y,w)
+        error_sum = np.sum(r)
+    return error_sum / n
+
+print(error_mean(X,y,w))
+
+----
+
+
+#TODO
+def grad(x,y,w):
+    mat_mul = np.matmul(x.astype(float),(np.transpose(w)).astype(float))
+    gradient = (y*x)/(1+(np.exp(y*mat_mul)))
+    return gradient
+
+#TODO
+def grad_mean(X,y,w):
+    n = X.shape[0]
+    grad_result = grad(X,y,w)
+    result = (-1/n)*sum(grad_result)
+    return result
+    
+
+print(grad_mean(X,y,w))
+
+
+
+----
+
+
+def fit(X,y,kappa,iter):
+    w = np.zeros((1,X.shape[1]))
+    E = []
+
+    for i in range(iter):
+        grad = grad_mean(X,y,w)
+        w = w - (kappa * grad)
+        E.append(error_mean(X,y,w))
+    
+    return w,E
+
+w,E = fit(X,y,1,100)
+print(w)
+plt.plot(E)
+plt.show()
