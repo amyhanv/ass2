@@ -1,0 +1,35 @@
+#TODO
+def predict(w, X):
+    predictions = []
+    n = X.shape[0]
+    
+    for i in range(n):
+        w_transpose = w.transpose()
+        x_index = X[i]
+        w_transpose = w_transpose * -1
+        xw_matrix  = np.matmul(x_index, w_transpose)
+        denominator = 1 + np.exp(xw_matrix)
+        if (1 / denominator) > 0.5:
+            predictions.append(1)
+        else:
+            predictions.append(-1)
+    
+    return predictions
+
+#TODO
+def accuracy(y,y_pred):
+    num_correct = 0 
+    num_incorrect = 0
+    m = len(y_pred)
+    
+    for i in range(m):
+        if y[i] == y_pred[i]:
+            num_correct += 1
+        else:
+            num_incorrect += 1
+    sum = num_incorrect + num_correct
+    percent_accuracy = num_correct / sum
+    return percent_accuracy
+
+y_pred = predict(w,X)
+print( accuracy(y,y_pred) )
